@@ -73,7 +73,7 @@ int getParent(Graph G, int u){
     if(u > getOrder(G)){
         printf("Graph ERROR: getParent() u > getOrder");
     }
-    G->parent[u];
+    return G->parent[u];
 }
 /* Pre: 1<=u<=n=getOrder(G) */
 int getDiscover(Graph G, int u){
@@ -83,7 +83,7 @@ int getDiscover(Graph G, int u){
     if(u > getOrder(G)){
         printf("Graph ERROR: getDiscover() u > Order(G)");
     }
-    G->discoverTime[u];
+    return G->discoverTime[u];
 }
 /* Pre: 1<=u<=n=getOrder(G) */
 int getFinish(Graph G, int u){
@@ -93,7 +93,7 @@ int getFinish(Graph G, int u){
     if(u > getOrder(G)){
         printf("Graph ERROR: getFinish() u > Order(G)");
     }
-    G->finishTime[u];
+    return G->finishTime[u];
 }
 
 /*** Manipulation procedures ***/
@@ -159,25 +159,24 @@ void DFS(Graph G, List S){/* Pre: length(S)==getOrder(G) */
     int time = 0;
     for(moveFront(S); index(S) != -1; moveNext(S)){
         int startVertex = get(S);
-        deleteFront()
-        if(G->color[i] == WHITE){
-            visit(G, i, time, S);
+        if(G->color[startVertex] == WHITE){
+            visit(G, startVertex, time, S);
         }
     }
 }
 void visit(Graph G, int index, int time, List S){
-    G->discoverTime[index] = (++time);
-    G->color[index] = GRAY;
-    List adjList = G->adjacencyList[index];
-    for(moveNext(adjList); index(adjList) != -1; moveNext(adjList)){
-        int adjVertex = get(adjList);
-        if(G->color[adjVertex] == WHITE){
-            G->parent[adjVertex] = index;
-            visit(G,adjVertex, time);
-        }
-    }
-    G->color[index] = BLACK;
-    G->finishTime[index] = (++time);
+//    G->discoverTime[index] = (++time);
+//    G->color[index] = GRAY;
+//    List adjList = G->adjacencyList[index];
+//    for(moveNext(adjList); index(adjList) != -1; moveNext(adjList)){
+//        int adjVertex = get(adjList);
+//        if(G->color[adjVertex] == WHITE){
+//            G->parent[adjVertex] = index;
+//            visit(G,adjVertex, time, S);
+//        }
+//    }
+//    G->color[index] = BLACK;
+//    G->finishTime[index] = (++time);
 }
 
 /*** Other operations ***/
