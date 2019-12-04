@@ -5,7 +5,7 @@
 //HELPER FUNCTIONS
 void checkGraphNullity(Graph G, char *functionName);
 int placeInOrder(List A, int x);
-void visit(Graph G, int index, int time, List S);
+void visit(Graph G, int index, int* time, List S);
 
 typedef struct GraphObj {
     List* adjacencyList;
@@ -160,28 +160,57 @@ void DFS(Graph G, List S){/* Pre: length(S)==getOrder(G) */
     for(moveFront(S); index(S) != -1; moveNext(S)){
         int startVertex = get(S);
         if(G->color[startVertex] == WHITE){
-            visit(G, startVertex, time, S);
+            printf("Hit :%d", startVertex);
+            visit(G, startVertex, &time,S);
         }
     }
+    printf("\n\n\n\n");
+    for(int i = 0; i < getOrder(G); i++){
+        deleteBack(S);
+    }
 }
-void visit(Graph G, int index, int time, List S){
-//    G->discoverTime[index] = (++time);
-//    G->color[index] = GRAY;
-//    List adjList = G->adjacencyList[index];
-//    for(moveNext(adjList); index(adjList) != -1; moveNext(adjList)){
-//        int adjVertex = get(adjList);
-//        if(G->color[adjVertex] == WHITE){
-//            G->parent[adjVertex] = index;
-//            visit(G,adjVertex, time, S);
-//        }
-//    }
-//    G->color[index] = BLACK;
-//    G->finishTime[index] = (++time);
+void visit(Graph G, int vertex, int* time, List S){
+    G->discoverTime[vertex] = (++*time);
+    G->color[vertex] = GRAY;
+    List adjList = G->adjacencyList[vertex];
+    for(moveFront(adjList); index(adjList) != -1; moveNext(adjList)){
+        int adjVertex = get(adjList);
+        if(G->color[adjVertex] == WHITE){
+            G->parent[adjVertex] = vertex;
+            visit(G,adjVertex, time, S);
+        }
+    }
+    G->color[vertex] = BLACK;
+    G->finishTime[vertex] = (++*time);
+    prepend(S,vertex);
 }
 
 /*** Other operations ***/
-Graph transpose(Graph G);
-Graph copyGraph(Graph G);
+Graph transpose(Graph G){
+    Graph GTranspose = newGraph(getOrder(G));
+    for(int i = 1; i <= getOrder(G); i++){
+        List adjList = G->adjacencyList[i];
+        for(moveFront(adjList); index(adjList) != -1; moveNext(adjList)){
+            addArc(GTranspose,get(adjList),i);
+        }
+    }
+    return GTranspose;
+}
+
+Graph copyGraph(Graph G){
+    Graph graphCopy = newGraph(getOrder(G));
+    for(int i = 1; i <= G->order; i++) {
+        List listToBeFreed = graphCopy->adjacencyList[i];
+        graphCopy->adjacencyList[i] = copyList(G->adjacencyList[i]);
+        freeList(&listToBeFreed);
+        graphCopy->color[i]         = G->color[i];
+        graphCopy->finishTime[i]    = G->finishTime[i];
+        graphCopy->discoverTime[i]  = G->discoverTime[i];
+        graphCopy->parent[i]        = G->parent[i];
+    }
+    graphCopy->size = G->size;
+    return graphCopy;
+}
 void printGraph(FILE* out, Graph G){
     for(int i = 1; i <= G->order; i++){
         fprintf(out, "%d:", i);

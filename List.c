@@ -420,3 +420,13 @@ List concatList(List A, List B){
     }
     return returnList;
 }
+
+void priList(List L){
+    Node iterator = L->front;
+    while(iterator->next != NULL){
+        printf(" [%d], ",iterator->data);
+        iterator = iterator->next;
+    }
+    printf(" [%d]",iterator->data);
+    printf("\n");
+}
