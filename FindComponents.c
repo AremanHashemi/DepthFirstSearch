@@ -1,5 +1,5 @@
 //
-// Areman Hashemi, #1744655, pa4
+// Areman Hashemi, #1744655, pa5
 //
 #include<stdio.h>
 #include<stdlib.h>
@@ -40,7 +40,6 @@ int main(int argc, char* argv[]){
     DFS(A,L);
     Graph ATranspose = transpose(A);
     DFS(ATranspose,L);
-    priList(L);
     //FIND SCC
     int numSCC = 0;
     List sccHeads = newList();
@@ -50,16 +49,24 @@ int main(int argc, char* argv[]){
             prepend(sccHeads, get(L));
         }
     }
-
-    List* SCC = calloc(numSCC,(List));
-
+    List* SCC = calloc(numSCC, sizeof(List));
+    for(int i = 0; i < numSCC; i++){
+        SCC[i] = newList();
+    }
+    int SCCindex = 0;
     fprintf(out,"\nG contains %d strongly connected components:\n",numSCC);
     moveBack(sccHeads);
     for(moveBack(L);index(L) != -1; movePrev(L)){
+        prepend(SCC[SCCindex],get(L));
         if(get(L) == get(sccHeads)){
-
+            fprintf(out,"Component %d:",SCCindex+1);
+            for(moveFront(SCC[SCCindex]); index(SCC[SCCindex]) != -1; moveNext(SCC[SCCindex])){
+                fprintf(out," %d", get(SCC[SCCindex]));
+            }
+            fprintf(out,"\n");
+            SCCindex++;
+            movePrev(sccHeads);
         }
-        fprintf(out," %d",get(L));
     }
 
     freeGraph(&A);

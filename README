@@ -1,0 +1,11 @@
+README
+Makefile
+List.c
+List.h
+Graph.h
+Graph.c
+GraphTest.c
+FindComponents.c 
+
+
+Used the second implementation of time as a parameter to visit 
