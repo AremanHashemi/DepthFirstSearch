@@ -160,11 +160,9 @@ void DFS(Graph G, List S){/* Pre: length(S)==getOrder(G) */
     for(moveFront(S); index(S) != -1; moveNext(S)){
         int startVertex = get(S);
         if(G->color[startVertex] == WHITE){
-            printf("Hit :%d", startVertex);
             visit(G, startVertex, &time,S);
         }
     }
-    printf("\n\n\n\n");
     for(int i = 0; i < getOrder(G); i++){
         deleteBack(S);
     }
