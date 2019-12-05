@@ -41,6 +41,22 @@ int main(int argc, char* argv[]){
     Graph ATranspose = transpose(A);
     DFS(ATranspose,L);
     priList(L);
+    //FIND SCC
+    int numSCC = 0;
+    List SSC = newList();
+    for(moveBack(L);index(L) != -1; movePrev(L)){
+        if(getParent(ATranspose,get(L)) == NIL){
+            numSCC++;
+            for(moveFront(SSC); index(SSC) != -1; moveNext(SSC)){
+
+            }
+        }
+        prepend(SSC,get(L));
+    }
+    for(int i = 0; i < counter; i++){
+        fprintf(out,"Component %d:");
+    }
+
     freeGraph(&A);
     fclose(in);
     fclose(out);

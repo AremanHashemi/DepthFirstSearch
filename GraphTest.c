@@ -8,11 +8,11 @@ void testCopy();
 void testDeepCopy();
 void testDFS();
 int main(){
-    testDFS();
+//    testDFS();
 //    testCopy();
 //    testDeepCopy();
 //    testDirectedGraph();
-//    testTranspose();
+    testTranspose();
 }
 void testDFS(){
     Graph G = newGraph(8);
@@ -143,6 +143,8 @@ void testTranspose(){
     Graph T = transpose(G);
     printf("G transpose: \n");
     priGraph(T);
+    freeGraph(&G);
+    freeGraph(&T);
 
 }
 void testBaseTranspose(){
