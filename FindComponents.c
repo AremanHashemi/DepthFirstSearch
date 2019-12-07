@@ -1,5 +1,5 @@
 //
-// Areman Hashemi, #1744655, pa5
+// Areman Hashemi, #1744655, pa4
 //
 #include<stdio.h>
 #include<stdlib.h>
@@ -7,7 +7,7 @@
 void checkArgc(int argc);
 void openFile(FILE **in, char * fileName);
 void readGraphOrder(FILE** in, int* size);
-
+void printRecursivly(Graph G, List L);
 int main(int argc, char* argv[]){
     checkArgc(argc);
     int  order = 0;
@@ -40,39 +40,27 @@ int main(int argc, char* argv[]){
     DFS(A,L);
     Graph ATranspose = transpose(A);
     DFS(ATranspose,L);
-    //FIND SCC
-    int numSCC = 0;
-    List sccHeads = newList();
-    for(moveBack(L);index(L) != -1; movePrev(L)){
-        if(getParent(ATranspose,get(L)) == NIL){
-            numSCC++;
-            prepend(sccHeads, get(L));
-        }
-    }
-    List* SCC = calloc(numSCC, sizeof(List));
-    for(int i = 0; i < numSCC; i++){
-        SCC[i] = newList();
-    }
-    int SCCindex = 0;
-    fprintf(out,"\nG contains %d strongly connected components:\n",numSCC);
-    moveBack(sccHeads);
-    for(moveBack(L);index(L) != -1; movePrev(L)){
-        prepend(SCC[SCCindex],get(L));
-        if(get(L) == get(sccHeads)){
-            fprintf(out,"Component %d:",SCCindex+1);
-            for(moveFront(SCC[SCCindex]); index(SCC[SCCindex]) != -1; moveNext(SCC[SCCindex])){
-                fprintf(out," %d", get(SCC[SCCindex]));
-            }
-            fprintf(out,"\n");
-            SCCindex++;
-            movePrev(sccHeads);
-        }
-    }
+    priList(L);
 
+    moveBack(L);
+    while(index(L) != -1){
+        printRecursivly(ATranspose,L);
+        printf("\n");
+        movePrev(L);
+    }
     freeGraph(&A);
     fclose(in);
     fclose(out);
     return(0);
+}
+void printRecursivly(Graph G, List L){
+    int value = get(L);
+    if(getParent(G,get(L)) == NIL){
+    }else{
+        movePrev(L);
+        printRecursivly(G,L);
+    }
+    printf(" %d",value);
 }
 void checkArgc(int argc){
     if(argc != 3){
